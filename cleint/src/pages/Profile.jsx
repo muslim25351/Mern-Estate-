@@ -10,7 +10,10 @@ export default function Profile() {
   const fileRef = useRef(null);
   const [file, setFile] = useState(undefined);
   const [imageUrl, setImageUrl] = useState("");
-  console.log(file);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({});
+
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -29,7 +32,8 @@ export default function Profile() {
         "67da80dd0029ad1cb1ae",
         fileId,
         file,
-        [Permission.read(Role.any())]
+        [Permission.read(Role.any())],
+        setUploadProgress(-1)
       );
       console.log("Upload successful:", response);
 
@@ -38,12 +42,17 @@ export default function Profile() {
         response.$id
       );
       setImageUrl(imageUrl);
+      setFormData({ ...formData, avatar: imageUrl });
+      setUploadProgress(0);
+
       //console.log(imageUrl);
     } catch (error) {
+      setError(error);
       console.error("Upload failed:", error);
+      setUploadProgress(0); // Reset progress on error
     }
   };
-  console.log("Preview URL:", imageUrl);
+  console.log(formData);
 
   return (
     <div className="max-w-lg mx-auto p-3">
@@ -64,6 +73,16 @@ export default function Profile() {
           alt="profile"
           className="rounded-full  h-24 w-24  object-cover self-center cursor-pointer"
         />
+        {error ? (
+          <span className="text-red-700 text-center">{error.message}</span>
+        ) : uploadProgress === -1 ? (
+          <span className="text-slate-700 animate-pulse text-center">
+            Uploading...
+          </span>
+        ) : uploadProgress === 0 && imageUrl ? (
+          <span className="text-green-700 text-center">Upload complete!</span>
+        ) : null}
+
         <input
           type="text"
           placeholder="username"
