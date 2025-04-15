@@ -95,7 +95,7 @@ export default function Profile() {
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
     } catch (err) {
-      dispatch(updateUserFailure(err.message || "Something went wrong."));
+      dispatch(updateUserFailure(err.message));
     }
   };
 
@@ -112,7 +112,7 @@ export default function Profile() {
       const data = await res.json();
 
       if (data.success === false) {
-        setError(data.message);
+        dispatch(deleteUserFailure(data.message));
         return;
       }
 
