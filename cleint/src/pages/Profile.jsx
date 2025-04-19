@@ -13,7 +13,7 @@ import {
   signOutUserStart,
   signOutUserFailure,
   signOutUserSuccess,
-} from "../redux/user/userSlice";
+} from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -26,6 +26,9 @@ export default function Profile() {
   const [err, setError] = useState(null);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showErrorListing, setShowErrorListing] = useState(false);
+  const [userListings, setUserListings] = useState([]);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,7 +73,7 @@ export default function Profile() {
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.id]: e.target.value });
-  console.log(formData);
+  //console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -99,7 +102,7 @@ export default function Profile() {
       dispatch(updateUserFailure(err.message));
     }
   };
-
+  console.log("the form data", formData);
   const handleDeleteUser = async () => {
     dispatch(deleteUserStart());
     try {
@@ -136,7 +139,31 @@ export default function Profile() {
       dispatch(signOutUserFailure(err.message));
     }
   };
+  const handleShowListing = async () => {
+    //e.preventDefault();
+    try {
+      setShowErrorListing(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      if (!res.ok) {
+        setShowErrorListing(true);
+        return;
+      }
+      const data = await res.json();
+      //console.log(`/api/user/listings/${currentUser._id}`); // Should be the same as the one you test in Insomnia
 
+      if (data.success === false) {
+        setShowErrorListing(true);
+        return;
+      }
+      setUserListings(data);
+      // console.log("the data log", data);
+    } catch (err) {
+      setShowErrorListing(true);
+      console.log(err);
+    }
+  };
+  console.log(currentUser._id);
+  console.log("the listing", userListings);
   return (
     <div className="max-w-lg mx-auto p-3">
       <h1 className="text-3xl text-center  font-semibold py-3">profile</h1>
@@ -217,6 +244,45 @@ export default function Profile() {
       <p className="text-green-700">
         {updateSuccess ? "user is updated successfully!" : ""}
       </p>
+      <div className="flex justify-center">
+        <button onClick={handleShowListing} className="text-green-800 ">
+          Show Listings
+        </button>
+      </div>
+      <p className="text-red-700">
+        {showErrorListing ? "Error in listing" : ""}
+      </p>
+      {userListings && userListings.length > 0 && (
+        <div className="flex flex-col gap-y-4 ">
+          <h1 className="text-lg  text-center font-semibold py-2">
+            Your Listings
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className=" flex justify-between items-center p-3 border border-slate-300 rounded-lg gap-3 shadow-sm"
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt="image cover"
+                  className="h-16 w-16 object-contain"
+                />
+              </Link>
+              <Link
+                className="text-slate-700  hover:underline truncate flex-1 font-semibold"
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+              <div className="flex flex-col items-center ">
+                <button className="text-red-700">DELETE</button>
+                <button className="text-green-700">EDIT</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

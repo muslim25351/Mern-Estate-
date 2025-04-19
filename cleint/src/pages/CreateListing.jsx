@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ID } from "appwrite";
 import { storage } from "../appWrite/appwriteconfig.js";
 export default function CreateListing() {
@@ -131,7 +131,7 @@ export default function CreateListing() {
         },
         body: JSON.stringify({
           ...formData,
-          useRef: currentUser._id,
+          userRef: currentUser._id,
         }),
       });
       const data = await res.json();
@@ -139,6 +139,7 @@ export default function CreateListing() {
         setError(data.message);
       }
       navigate(`/listing/${data._id}`);
+
       setLoading(false);
       setError(false);
     } catch (err) {
@@ -146,6 +147,7 @@ export default function CreateListing() {
       setLoading(false);
     }
   };
+  //console.log("curerneeee", currentUser);
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
