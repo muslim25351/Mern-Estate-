@@ -11,14 +11,17 @@ import {
   FaChair,
   FaParking,
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import Contact from "../components/Contact";
 
 export default function Listing() {
   SwiperCore.use([Navigation]);
   const params = useParams();
-
+  const { currentUser } = useSelector((state) => state.user);
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [contact, setContact] = useState(false);
   useEffect(() => {
     // Fetch listing data from the server using the listingId from the URL
     const fetchListing = async () => {
@@ -57,7 +60,7 @@ export default function Listing() {
                 <img
                   src={url}
                   alt="lisiting"
-                  className="w-full h-[350px] object-cover"
+                  className="w-full h-[400px] object-cover"
                 />
               </SwiperSlide>
             ))}
@@ -128,6 +131,17 @@ export default function Listing() {
           {listing?.furnished ? "Furnished" : "Not Furnished"}
         </li>
       </ul>
+      {currentUser && !contact && listing?.userRef !== currentUser._id && (
+        <div className=" max-w-2xl w-full mt-6 mx-auto">
+          <button
+            onClick={() => setContact(true)}
+            className="text-white bg-slate-700 uppercase hover:opacity-80 rounded-lg p-3 w-full"
+          >
+            Contact Land Lord
+          </button>
+        </div>
+      )}
+      {contact && <Contact listing={listing} />}
     </main>
   );
 }
