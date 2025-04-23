@@ -79,35 +79,37 @@ export default function Listing() {
           <FaMapMarkerAlt className="text-green-600 mr-2" />
           {listing?.address}
         </p>
-      </div>
 
-      <div className="flex justify-center items-center ">
-        <div className="max-w-2xl w-full">
-          <div className="flex justify-start  items-center mt-4">
-            <div className=" text-center">
-              {listing?.type === "rent" ? (
-                <p className="text-lg text-blue-600 font-semibold">For Rent</p>
-              ) : (
-                <div className="flex justify-between gap-2">
-                  <p className="mt-3 bg-red-600 max-w-[200px] rounded-md text-white text-center py-2 px-3">
-                    For Sale
+        <div className="flex justify-center items-center ">
+          <div className="max-w-2xl w-full">
+            <div className="flex justify-start  items-center mt-4">
+              <div className=" text-center">
+                {listing?.type === "rent" ? (
+                  <p className="text-lg text-blue-600 font-semibold">
+                    For Rent
                   </p>
-                  {listing?.offer && (
-                    <p className="mt-3 bg-green-600 max-w-[200px] rounded-md text-white text-center py-2 px-3">
-                      ${listing.discountPrice} Discount
+                ) : (
+                  <div className="flex justify-between gap-2">
+                    <p className="mt-3 bg-red-600 max-w-[200px] rounded-md text-white text-center py-2 px-3">
+                      For Sale
                     </p>
-                  )}
-                </div>
-              )}
+                    {listing?.offer && (
+                      <p className="mt-3 bg-green-600 max-w-[200px] rounded-md text-white text-center py-2 px-3">
+                        ${listing.discountPrice} Discount
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <p className="mt-6 text-gray-700 max-w-2xl mx-auto text-center text-sm sm:text-base">
-        <span className="text-black font-semibold">Description :- </span>
-        {listing?.description}
-      </p>
+        <p className="mt-6 text-gray-700 max-w-2xl mx-auto text-center text-sm sm:text-base">
+          <span className="text-black font-semibold">Description :- </span>
+          {listing?.description}
+        </p>
+      </div>
       <ul className="mt-6 justify-center text-green-700 font-semibold text-sm sm:text-base flex gap-x-6 gap-y-3 items-center sm:gap-8 flex-wrap">
         <li className="flex items-center gap-2 whitespace-nowrap">
           <FaBed className="text-lg" />
