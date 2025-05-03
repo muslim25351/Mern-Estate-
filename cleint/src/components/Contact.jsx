@@ -27,7 +27,7 @@ export default function Contact({ listing }) {
   const onChange = (e) => {
     setMessage(e.target.value);
   };
-
+  console.log("fetched listing userRef:" + listing?.userRef);
   return (
     <>
       {landLord && (

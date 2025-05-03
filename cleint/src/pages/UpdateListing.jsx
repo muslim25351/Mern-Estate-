@@ -370,7 +370,7 @@ export default function UpdateListing() {
             type="submit"
             className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80 "
           >
-            {loading ? "creating" : "update listing"}
+            {loading ? "updating" : "update listing"}
           </button>
           <p className="text-red-700 text-sm">{error && error}</p>
         </div>
