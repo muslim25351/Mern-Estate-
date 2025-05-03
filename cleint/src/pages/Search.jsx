@@ -19,7 +19,7 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
   const [error, setError] = useState(false);
-  console.log(listings);
+  const [showMore, setShowMore] = useState(false);
 
   const handleChange = (e) => {
     if (
@@ -94,6 +94,7 @@ export default function Search() {
 
     const fetchListings = async () => {
       setLoading(true);
+      setShowMore(false);
       try {
         const searchQuery = urlParams.toString();
         // console.log("Fetching from:", `/api/listing/get?${searchQuery}`);
@@ -105,6 +106,12 @@ export default function Search() {
           setError(true);
           return;
         }
+        if (data.length > 8) {
+          setShowMore(true);
+        } else {
+          setShowMore(false);
+          setLoading(false);
+        }
         setListings(data);
         setLoading(false);
       } catch (err) {
@@ -114,9 +121,22 @@ export default function Search() {
     };
     fetchListings();
   }, [location.search]);
+  const onShowMoreClick = async () => {
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json();
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    setListings([...listings, ...data]);
+  };
   return (
-    <div className="flex flex-col md:flex-row  ">
-      <div className=" p-7 border-b-2 border-gray-400 md:border-r-2  md:min-h-screen border-solid  ">
+    <div className="flex flex-col sm:flex-row  ">
+      <div className=" p-7 border-b-2 border-gray-400 md:border-r-2  md:min-h-screen border-solid flex-1 ">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
             <label className="whitespace-nowrap font-semibold">
@@ -216,11 +236,12 @@ export default function Search() {
           </button>
         </form>
       </div>
-      <div className="flex-1">
+      <div className="flex-3 ">
         <h1 className="font-semibold text-2xl pl-3 mt-7 text-slate-70 shadow-md pb-2">
           Listing results :
         </h1>
-        <div className="flex flex-wrap p-7 gap-y-4 gap-x-6">
+
+        <div className="flex flex-wrap p-7 gap-y-4 gap-x-6 md:pl-9">
           {!loading && listings.length === 0 && (
             <p className="text-xl text-center text-slate-700">
               No lisiting result found!
@@ -237,6 +258,14 @@ export default function Search() {
               <ListingItems key={listing._id} listing={listing} />
             ))}
         </div>
+        {showMore && (
+          <button
+            onClick={onShowMoreClick}
+            className="text-green-600 hover:underline px-7 pb-4"
+          >
+            show more
+          </button>
+        )}
       </div>
     </div>
   );
