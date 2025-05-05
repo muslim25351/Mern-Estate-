@@ -67,7 +67,7 @@ export default function Listing() {
           </Swiper>
         </div>
       )}
-      <div className="bg-white shadow-md shadow-amber-600 rounded-lg items-center mx-auto max-w-2xl p-4 mt-8">
+      <div className="bg-white shadow-md shadow-amber-600 rounded-lg items-center mx-auto max-w-2xl p-4 mt-8 ">
         <h1 className="text-xl font-semibold text-gray-800 text-center">
           {listing?.name} {" - "}${" "}
           {listing?.offer
@@ -75,12 +75,12 @@ export default function Listing() {
             : listing?.regularPrice}
           /month
         </h1>
-        <p className="mt-5 text-md text-gray-600 flex items-center justify-center">
+        <p className="mt-5 text-md text-gray-600 flex items-center justify-start">
           <FaMapMarkerAlt className="text-green-600 mr-2" />
           {listing?.address}
         </p>
 
-        <div className="flex justify-center items-center ">
+        <div className="flex justify-start items-center ">
           <div className="max-w-2xl w-full">
             <div className="flex justify-start  items-center mt-4">
               <div className=" text-center">
@@ -105,7 +105,7 @@ export default function Listing() {
           </div>
         </div>
 
-        <p className="mt-6 text-gray-700 max-w-2xl mx-auto text-center text-sm sm:text-base">
+        <p className="mt-6 text-gray-700  text-sm sm:text-base">
           <span className="text-black font-semibold">Description :- </span>
           {listing?.description}
         </p>
