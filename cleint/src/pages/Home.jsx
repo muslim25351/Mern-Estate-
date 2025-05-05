@@ -6,8 +6,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css/bundle";
-import Listing from "./Listing";
 import ListingItems from "../components/ListingItems";
+import { FaTelegram, FaInstagram, FaFacebook, FaYoutube } from "react-icons/fa";
 
 export default function Home() {
   SwiperCore.use([Navigation]);
@@ -152,6 +152,74 @@ export default function Home() {
           </div>
         )}
       </div>
+      <footer className="bg-gray-300 py-4 mt-10 flex flex-col gap-7">
+        <div className="flex justify-between items-center max-w-6xl mx-auto px-3">
+          <p className="max-w-md text-sm text-gray-600">
+            <span className="font-semibold text-lg text-slate-700">
+              Mission
+            </span>
+            <br></br>Empower individuals to find their perfect property by
+            offering reliable listings, intuitive tools, and personalized
+            support every step.
+          </p>
+          <p className="max-w-md text-sm text-gray-600">
+            <span className="font-semibold text-lg text-slate-700">vision</span>
+            <br></br>To become the leading real estate platform, making property
+            discovery and transactions effortless, transparent, and accessible
+            to eve
+          </p>
+          <p className="max-w-md text-sm text-gray-600">
+            <span className="font-semibold text-lg text-slate-700">
+              team members
+            </span>
+            <br></br>luxiary realEstate is a team of dedicated professionals
+            with a passion for real estate. Our team consists of experienced
+            agents,and skilled software developers who are studing at astu!
+          </p>
+          <p className=" max-w-md text-sm text-gray-600">
+            <span className="font-semibold text-lg text-slate-700">
+              Contact
+            </span>
+            <br></br>luxiary realEstate, 123 Main St, City, State, Zip
+            <br></br>Phone: (123) 456-7890
+            <br></br>Email: mame25351@gmail.com
+          </p>
+        </div>
+        <div className="flex justify-center md:gap-6 gap-4 text-3xl text-gray-600">
+          <a
+            href="https://t.me/abuzerj"
+            target="@_blank"
+            rel="noopener noreferrer"
+          >
+            <FaTelegram className="hover:text-blue-500" />
+          </a>
+          <a
+            href="https://instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaInstagram className="hover:text-pink-500" />
+          </a>
+          <a
+            href="https://facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaFacebook className="hover:text-blue-700" />
+          </a>
+          <a
+            href="https://youtube.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaYoutube className="hover:text-red-600" />
+          </a>
+        </div>
+
+        <p className="text-sm text-center text-gray-700">
+          &copy; {new Date().getFullYear()} YourCompany. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }
